@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora OS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#00ffae">
+</head>
+<body>
+
+<div class="particles"></div>
+
+<div class="sidebar">
+    <h1>NEXORA</h1>
+
+    <a href="/">🏠 Dashboard</a>
+    <a href="/proyectos">🚀 Proyectos</a>
+    <a href="/nuevo-proyecto">➕ Nuevo Proyecto</a>
+
+    {% if session.get("usuario_id") %}
+        <a href="/logout">🚪 Cerrar sesión</a>
+        <p class="user-badge">👤 {{ session.get("usuario_nombre") }}</p>
+    {% else %}
+        <a href="/login">👤 Login</a>
+        <a href="/registro">🧬 Registro</a>
+    {% endif %}
+</div>
+
+<div class="main-content">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="hero">
+    <div>
+        <h2>Nexora OS Dashboard</h2>
+        <p>Controlá todos tus proyectos desde un solo lugar.</p>
+    </div>
+
+    <a href="/nuevo-proyecto">
+        <button class="glow-btn">➕ Nuevo Proyecto</button>
+    </a>
+</div>
+
+<div class="cards">
+    <div class="card">
+        <h3>🚀 Proyectos</h3>
+        <p>{{ total_proyectos }}</p>
+    </div>
+
+    <div class="card">
+        <h3>📝 Tareas</h3>
+        <p>{{ total_tareas }}</p>
+    </div>
+
+    <div class="card">
+        <h3>🔥 Productividad</h3>
+        <p>{{ productividad }}%</p>
+    </div>
+</div>
+
+<div class="chart-box">
+    <h2>Estado de proyectos</h2>
+
+    <div class="bar">
+        <span>Idea</span>
+        <div><i style="width: {{ ideas * 20 }}%"></i></div>
+        <strong>{{ ideas }}</strong>
+    </div>
+
+    <div class="bar">
+        <span>En desarrollo</span>
+        <div><i style="width: {{ desarrollo * 20 }}%"></i></div>
+        <strong>{{ desarrollo }}</strong>
+    </div>
+
+    <div class="bar">
+        <span>Publicado</span>
+        <div><i style="width: {{ publicados * 20 }}%"></i></div>
+        <strong>{{ publicados }}</strong>
+    </div>
+</div>
+
+<h2 class="title">Últimos proyectos</h2>
+
+<div class="projects-grid">
+    {% for proyecto in proyectos %}
+
+    <a href="/proyecto/{{ proyecto.id }}" class="project-link">
+        <div class="project-card">
+            <h3>{{ proyecto.nombre }}</h3>
+            <p>{{ proyecto.descripcion }}</p>
+            <span>{{ proyecto.estado }}</span>
+
+            <div class="priority {{ proyecto.prioridad }}">
+                {{ proyecto.prioridad }}
+            </div>
+
+            {% if proyecto.fecha_limite %}
+            <p class="deadline">⏳ {{ proyecto.fecha_limite }}</p>
+            {% endif %}
+        </div>
+    </a>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-box">
+    <h2>Crear Proyecto</h2>
+
+    <form method="POST">
+        <input type="text" name="nombre" placeholder="Nombre del proyecto" required>
+
+        <textarea name="descripcion" placeholder="Descripción" required></textarea>
+
+        <select name="estado">
+            <option>Idea</option>
+            <option>En desarrollo</option>
+            <option>Publicado</option>
+        </select>
+
+        <select name="prioridad">
+            <option>Baja</option>
+            <option selected>Media</option>
+            <option>Alta</option>
+        </select>
+
+        <input type="date" name="fecha_limite">
+
+        <input type="text" name="github" placeholder="Link GitHub">
+        <input type="text" name="demo" placeholder="Link Demo">
+
+        <button class="glow-btn">🚀 Crear Proyecto</button>
+    </form>
+</div>
+
+{% endblock %}

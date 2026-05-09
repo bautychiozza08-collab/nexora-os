@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="top-bar">
+    <h2 class="title">Tus Proyectos</h2>
+
+    <a href="/nuevo-proyecto">
+        <button class="glow-btn">➕ Nuevo Proyecto</button>
+    </a>
+</div>
+
+<div class="filters">
+    <input type="text" id="searchProject" placeholder="Buscar proyecto...">
+
+    <select id="filterStatus">
+        <option value="todos">Todos</option>
+        <option value="Idea">Idea</option>
+        <option value="En desarrollo">En desarrollo</option>
+        <option value="Publicado">Publicado</option>
+    </select>
+</div>
+
+<div class="projects-grid">
+    {% for proyecto in proyectos %}
+
+    <div class="project-card searchable" data-title="{{ proyecto.nombre }}" data-status="{{ proyecto.estado }}">
+    <h3>{{ proyecto.nombre }}</h3>
+    <p>{{ proyecto.descripcion }}</p>
+    <span>{{ proyecto.estado }}</span>
+
+    <div class="priority {{ proyecto.prioridad }}">
+        {{ proyecto.prioridad }}
+    </div>
+
+    {% if proyecto.fecha_limite %}
+    <p class="deadline">⏳ {{ proyecto.fecha_limite }}</p>
+    {% endif %}
+
+    <div class="project-actions">
+        <a href="/proyecto/{{ proyecto.id }}">
+            <button class="mini-btn">Abrir</button>
+        </a>
+
+        <a href="/proyecto/{{ proyecto.id }}/editar">
+            <button class="mini-btn">Editar</button>
+        </a>
+
+        <a href="/proyecto/{{ proyecto.id }}/eliminar">
+            <button class="delete-btn">Eliminar</button>
+        </a>
+    </div>
+</div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

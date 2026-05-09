@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-box">
+    <h2>Editar Proyecto</h2>
+
+    <form method="POST">
+        <input type="text" name="nombre" value="{{ proyecto.nombre }}" required>
+
+        <textarea name="descripcion" required>{{ proyecto.descripcion }}</textarea>
+
+        <select name="estado">
+            <option {% if proyecto.estado == "Idea" %}selected{% endif %}>Idea</option>
+            <option {% if proyecto.estado == "En desarrollo" %}selected{% endif %}>En desarrollo</option>
+            <option {% if proyecto.estado == "Publicado" %}selected{% endif %}>Publicado</option>
+        </select>
+
+        <select name="prioridad">
+            <option {% if proyecto.prioridad == "Baja" %}selected{% endif %}>Baja</option>
+            <option {% if proyecto.prioridad == "Media" %}selected{% endif %}>Media</option>
+            <option {% if proyecto.prioridad == "Alta" %}selected{% endif %}>Alta</option>
+        </select>
+
+        <input type="date" name="fecha_limite" value="{{ proyecto.fecha_limite }}">
+
+        <input type="text" name="github" value="{{ proyecto.github }}" placeholder="GitHub">
+        <input type="text" name="demo" value="{{ proyecto.demo }}" placeholder="Demo">
+
+        <button class="glow-btn">Guardar cambios</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="project-detail">
+    <div class="project-header">
+        <div>
+            <h2>{{ proyecto.nombre }}</h2>
+            <p>{{ proyecto.descripcion }}</p>
+
+            <div class="status">🚀 {{ proyecto.estado }}</div>
+
+            <div class="priority {{ proyecto.prioridad }}">
+                {{ proyecto.prioridad }}
+            </div>
+
+            {% if proyecto.fecha_limite %}
+            <p class="deadline">⏳ Fecha límite: {{ proyecto.fecha_limite }}</p>
+            {% endif %}
+        </div>
+
+        <div class="links">
+            <a href="/proyecto/{{ proyecto.id }}/editar">
+                <button class="mini-btn">Editar</button>
+            </a>
+
+            {% if proyecto.github %}
+            <a href="{{ proyecto.github }}" target="_blank">
+                <button class="mini-btn">GitHub</button>
+            </a>
+            {% endif %}
+
+            {% if proyecto.demo %}
+            <a href="{{ proyecto.demo }}" target="_blank">
+                <button class="mini-btn">Demo</button>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="analytics-box">
+    <h3>📊 Analytics del proyecto</h3>
+
+    <div class="cards">
+        <div class="card">
+            <h3>⬜ Pendientes</h3>
+            <p>{{ pendientes }}</p>
+        </div>
+
+        <div class="card">
+            <h3>⚡ En progreso</h3>
+            <p>{{ progreso }}</p>
+        </div>
+
+        <div class="card">
+            <h3>✅ Completadas</h3>
+            <p>{{ completadas }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="ai-box">
+    <h3>🤖 Nexora AI</h3>
+
+    <div class="project-actions">
+        <a href="/proyecto/{{ proyecto.id }}/ia/tareas">
+            <button class="mini-btn">Generar tareas</button>
+        </a>
+
+        <a href="/proyecto/{{ proyecto.id }}/ia/roadmap">
+            <button class="mini-btn">Crear roadmap</button>
+        </a>
+
+        <a href="/proyecto/{{ proyecto.id }}/ia/linkedin">
+            <button class="mini-btn">Post LinkedIn</button>
+        </a>
+    </div>
+</div>
+
+<div class="upload-box">
+    <h3>📂 Archivos del proyecto</h3>
+
+    <form method="POST" action="/proyecto/{{ proyecto.id }}/upload" enctype="multipart/form-data">
+        <input type="file" name="archivo" required>
+        <button class="glow-btn">Subir archivo</button>
+    </form>
+
+    <div class="files-grid">
+        {% for archivo in archivos %}
+        <a href="/uploads/{{ archivo.nombre }}" target="_blank" class="file-card">
+            <h4>📎 {{ archivo.nombre }}</h4>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="tasks-box">
+    <h3>Kanban del proyecto</h3>
+
+    <form method="POST" action="/proyecto/{{ proyecto.id }}/tarea">
+        <input type="text" name="texto" placeholder="Nueva tarea..." required>
+        <button class="glow-btn">Agregar tarea</button>
+    </form>
+
+    <div class="kanban-board">
+
+        <div class="kanban-column" data-status="Pendiente">
+            <h3>⬜ Pendiente</h3>
+
+            {% for tarea in tareas %}
+                {% if tarea.estado == "Pendiente" %}
+                <div class="kanban-task" draggable="true" data-id="{{ tarea.id }}">
+                    <p>{{ tarea.texto }}</p>
+
+                    <div class="task-actions">
+                        <a href="/tarea/{{ tarea.id }}/estado/En progreso/{{ proyecto.id }}">
+                            <button class="mini-btn">En progreso</button>
+                        </a>
+
+                        <a href="/tarea/{{ tarea.id }}/estado/Completada/{{ proyecto.id }}">
+                            <button class="mini-btn">Completar</button>
+                        </a>
+
+                        <a href="/tarea/{{ tarea.id }}/eliminar/{{ proyecto.id }}">
+                            <button class="delete-btn">X</button>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="kanban-column" data-status="En progreso">
+            <h3>⚡ En progreso</h3>
+
+            {% for tarea in tareas %}
+                {% if tarea.estado == "En progreso" %}
+                <div class="kanban-task active-task" draggable="true" data-id="{{ tarea.id }}">
+                    <p>{{ tarea.texto }}</p>
+
+                    <div class="task-actions">
+                        <a href="/tarea/{{ tarea.id }}/estado/Pendiente/{{ proyecto.id }}">
+                            <button class="mini-btn">Pendiente</button>
+                        </a>
+
+                        <a href="/tarea/{{ tarea.id }}/estado/Completada/{{ proyecto.id }}">
+                            <button class="mini-btn">Completar</button>
+                        </a>
+
+                        <a href="/tarea/{{ tarea.id }}/eliminar/{{ proyecto.id }}">
+                            <button class="delete-btn">X</button>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="kanban-column" data-status="Completada">
+            <h3>✅ Completada</h3>
+
+            {% for tarea in tareas %}
+                {% if tarea.estado == "Completada" %}
+                <div class="kanban-task completed-task" draggable="true" data-id="{{ tarea.id }}">
+                    <p>{{ tarea.texto }}</p>
+
+                    <div class="task-actions">
+                        <a href="/tarea/{{ tarea.id }}/estado/Pendiente/{{ proyecto.id }}">
+                            <button class="mini-btn">Reabrir</button>
+                        </a>
+
+                        <a href="/tarea/{{ tarea.id }}/eliminar/{{ proyecto.id }}">
+                            <button class="delete-btn">X</button>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

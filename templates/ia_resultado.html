@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="ai-result">
+    <h2>🤖 Nexora AI</h2>
+    <p>Resultado para: <strong>{{ proyecto.nombre }}</strong></p>
+
+    <pre>{{ resultado }}</pre>
+
+    <button class="glow-btn" onclick="navigator.clipboard.writeText(document.querySelector('pre').innerText)">
+        Copiar resultado
+    </button>
+
+    <a href="/proyecto/{{ proyecto.id }}">
+        <button class="mini-btn">Volver</button>
+    </a>
+</div>
+
+{% endblock %}
